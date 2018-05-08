@@ -18,13 +18,12 @@ public class ConnectToDB {
 	
 	private final String username = "root";
 	private final String pass = "0961282897";
-	private final String sql = "select * from sinhvien";
 	
-	private void connect()  {
+	 public void connect()  {
 		try {
 			Class.forName(className);
 			connection = DriverManager.getConnection(url,username,pass);
-			System.out.println("thanh cong");
+//			System.out.println("thanh cong");
 		} catch (ClassNotFoundException e) {
 			// TODO Auto-generated catch block
 			System.out.println("that bai");
@@ -34,25 +33,26 @@ public class ConnectToDB {
 		}	
 	}
 	
-	private ResultSet getData() {
+	public ResultSet getData() {
 		ResultSet rs = null;
-		Statement stmt;
-		try {
-			stmt = connection.createStatement();
-			rs = stmt.executeQuery(sql);
-		} catch (SQLException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
-		return rs;
+        String sqlCommand = "select * from  sinhvien";
+        Statement st;
+        try {
+                st = connection.createStatement();
+                rs = st.executeQuery(sqlCommand);
+        } catch (SQLException e) {
+                System.out.println("select error \n" + e.toString());
+        }
+        return rs;
 	}
 	
-	private void showData(ResultSet rs) {
+	public void showData(ResultSet rs) {
 		try {
 			while(rs.next()) {
 				System.out.println(rs.getString(1) + "  " + rs.getString(2) 
 			    + "  " + rs.getDouble(3));
 			}
+			connection.close();
 		} catch (SQLException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
